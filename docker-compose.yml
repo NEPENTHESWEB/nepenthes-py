@@ -1,0 +1,13 @@
+services:
+  nepenthes:
+    build: .
+    ports:
+      - "8893:8893"
+    volumes:
+      - ./config.yml:/app/config.yml:ro
+      - ./corpus:/app/corpus:ro
+      - ./templates:/app/templates:ro
+    environment:
+      - NEPENTHES_HOST=::
+      - NEPENTHES_PORT=8893
+    restart: unless-stopped

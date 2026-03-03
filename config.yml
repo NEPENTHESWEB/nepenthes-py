@@ -1,0 +1,25 @@
+---
+http_host: '::'
+http_port: 8893
+
+templates:
+  - 'templates'
+
+seed_file: 'seed.txt'
+
+min_wait: 10
+max_wait: 65
+
+log_level: info
+
+stats_remember_time: 3600
+
+silos:
+  - name: default
+    default: true
+    wordlist: 'corpus/words.txt'
+    corpus: 'corpus/sample.txt'
+    prefixes:
+      - /maze
+    redirect_rate: 5
+    bogon_filter: true

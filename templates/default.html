@@ -1,0 +1,87 @@
+---
+markov:
+  - name: title_text
+    min: 3
+    max: 8
+  - name: content
+    min: 50
+    max: 200
+markov_array:
+  - name: paragraphs
+    min_count: 2
+    max_count: 6
+    markov_min: 40
+    markov_max: 150
+link_array:
+  - name: links
+    min_count: 10
+    max_count: 40
+    depth_min: 2
+    depth_max: 5
+booleans:
+  - name: show_sidebar
+    probability: 30
+  - name: show_footer_links
+    probability: 50
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title_text }}</title>
+    <style>
+        body { font-family: Georgia, 'Times New Roman', serif; margin: 2em auto; max-width: 48em; padding: 0 1em; line-height: 1.6; color: #333; background: #fafafa; }
+        h1 { font-size: 1.6em; border-bottom: 1px solid #ccc; padding-bottom: .3em; }
+        a { color: #1a5276; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .nav { font-size: .9em; margin: 1em 0; }
+        .nav a { margin-right: 1.2em; }
+        .sidebar { border-left: 3px solid #ddd; padding-left: 1em; margin: 1.5em 0; font-size: .92em; color: #555; }
+        .footer { margin-top: 3em; border-top: 1px solid #ddd; padding-top: 1em; font-size: .85em; color: #888; }
+        ul { padding-left: 1.5em; }
+        li { margin-bottom: .4em; }
+    </style>
+</head>
+<body>
+    <h1>{{ title_text }}</h1>
+
+    <div class="nav">
+        {% for link in links[:5] %}
+        <a href="{{ link }}">{{ link.split('/')[-1] }}</a>
+        {% endfor %}
+    </div>
+
+    <p>{{ content }}</p>
+
+    {% for para in paragraphs %}
+    <p>{{ para }}</p>
+    {% endfor %}
+
+    {% if show_sidebar %}
+    <div class="sidebar">
+        <h3>Related</h3>
+        <ul>
+        {% for link in links[5:15] %}
+            <li><a href="{{ link }}">{{ link.split('/')[-1] | capitalize }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <ul>
+        {% for link in links[15:] %}
+            <li><a href="{{ link }}">{{ link }}</a></li>
+        {% endfor %}
+        </ul>
+        {% if show_footer_links %}
+        <p>
+            {% for link in links[:8] %}
+            <a href="{{ link }}">{{ link.split('/')[-2] | default('Home', true) }}</a> &middot;
+            {% endfor %}
+        </p>
+        {% endif %}
+    </div>
+</body>
+</html>
