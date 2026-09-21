@@ -124,12 +124,22 @@ python -m nepenthes config.yml
 
 ### Connect to your website
 
+For Nginx
 ```nginx
 location /maze/ {
     proxy_pass http://localhost:8893;
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_buffering off;   # CRITICAL
 }
+```
+
+For Apache
+```apache
+<VirtualHost *:80 >
+        ServerName your.site.name
+        proxypass / http://localhost:8893/ flushpackets=on
+        RequestHeader set "X-Forward-For" expr=%{REMOTE_ADDR}
+</virtualHost>
 ```
 
 > `proxy_buffering off` is **mandatory**. Without it, the drip-feed mechanism is defeated and crawlers get fast page loads.
