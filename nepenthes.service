@@ -1,0 +1,17 @@
+[Unit]
+Description=nepenthes
+After=network.target 
+
+[Service]
+Type=simple
+User=nepenthes
+WorkingDirectory=/home/nepenthes/nepenthes-py
+ExecStart=python -m nepenthes config.yml 
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=90s
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
