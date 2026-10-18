@@ -198,7 +198,8 @@ class TarpitServer:
         return self.config.get_default_silo()
 
     async def start(self):
-        runner = web.AppRunner(self.app)
+        runner = web.AppRunner(self.app, access_log=None)
+        
         await runner.setup()
 
         if self.config.unix_socket:
